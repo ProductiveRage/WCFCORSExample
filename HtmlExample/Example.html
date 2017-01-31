@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Example CORS Service Consumer</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script>
+        var url = "http://localhost:51192/Service1.svc/GetData/123";
+        $.ajax({
+            dataType: "json",
+            url: url,
+            success: function (result) {
+                if (!result || !result.Value) {
+                    AppendResultToBrowser("Response received from " + url + " but it contained no data");
+                }
+                else {  
+                    AppendResultToBrowser("Received response from " + url + ": \"" + result.Value + "\"")
+                }
+            },
+            error: function (xhr, status, errorThrown) {
+                AppendResultToBrowser("Request to " + url + " failed: \"" + (errorThrown || status) + "\"");
+            }
+        });
+        function AppendResultToBrowser(message) {
+            var $message = $("<p />");
+            $message.text(message);
+            $(document.body).append($message);
+        }
+    </script>
+</body>
+</html>
